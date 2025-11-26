@@ -1,8 +1,12 @@
 import { useState } from "react";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, winner }) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button
+      className="square"
+      onClick={onSquareClick}
+      style={{ background: winner ? "#FFFF007F" : "#fff" }}
+    >
       {value}
     </button>
   );
@@ -37,6 +41,7 @@ function Board({ xIsNext, squares, onPlay }) {
             <Square
               value={squares[row * 3 + col]}
               onSquareClick={() => handleClick(row * 3 + col)}
+              winner={true}
             />
           ))}
         </div>
@@ -66,7 +71,7 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  const moves = history.map((squares, move) => {
+  const moves = history.map((_, move) => {
     let description;
     if (move === history.length - 1) {
       return <li key={move}>You are at move #{move}</li>;
