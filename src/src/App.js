@@ -25,13 +25,16 @@ function Board({ xIsNext, squares, onPlay }) {
   }
 
   const winner = calculateWinner(squares);
+  let winningSquares;
   let status;
-  if (winner === 2) {
-    status = "Draw";
+  if (winner === "-") {
+    status = "It's a draw!";
   } else if (winner) {
-    status = "Winner: " + winner;
+    status = "Winner: " + winner[0];
+    winningSquares = [winner[1], winner[2], winner[3]];
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
+    winningSquares = null;
   }
 
   return (
@@ -43,7 +46,9 @@ function Board({ xIsNext, squares, onPlay }) {
             <Square
               value={squares[row * 3 + col]}
               onSquareClick={() => handleClick(row * 3 + col)}
-              winner={true}
+              winner={
+                winningSquares ? winningSquares.includes(row * 3 + col) : false
+              }
             />
           ))}
         </div>
@@ -115,11 +120,17 @@ function calculateWinner(squares) {
     [0, 4, 8],
   ];
 
+  const foundSquares = new Set();
+
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
+    if (squares[a]) foundSquares.add(a);
+    if (squares[b]) foundSquares.add(b);
+    if (squares[c]) foundSquares.add(c);
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      console.log(squares[a]);
-      return squares[a];
+      return [squares[a], a, b, c];
+    } else if (foundSquares.size === 9) {
+      return "-";
     }
   }
   return null;
