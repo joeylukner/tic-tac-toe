@@ -61,7 +61,7 @@ export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
+  const currentSquares = history[currentMove]; // History is an array where each entry is the 9 squares on the board. Can I use the history array to store/retrieve whichever move was made last?
   const [sortOrder, setSortOrder] = useState(1);
 
   function handlePlay(nextSquares) {
@@ -83,7 +83,8 @@ export default function Game() {
     if (move === history.length - 1) {
       return <li key={move}>You are at move #{move}</li>;
     } else if (move > 0) {
-      description = "Go to move #" + move;
+      description =
+        "Go to move #" + move + ". Row: " + { row } + " Col: " + { col };
     } else {
       description = "Go to game start";
     }
