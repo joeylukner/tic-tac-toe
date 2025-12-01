@@ -21,7 +21,10 @@ function Board({ xIsNext, squares, onPlay }) {
     } else {
       nextSquares[i] = "O";
     }
+    console.log("here");
+    console.log(i);
     nextSquares[9] = i;
+    console.log(nextSquares);
     onPlay(nextSquares);
   }
 
@@ -81,8 +84,14 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
-    let row = squares[9] / 3;
-    let col = squares[9] % 3; // Right now squares SHOULD be storing the metadata of what move was made
+    console.log("history");
+    console.log(squares);
+    let box = squares.at(-1);
+    console.log(box);
+    let row = Math.floor(box / 3);
+    let col = box % 3;
+    console.log(row);
+    console.log(col); // Right now squares SHOULD be storing the metadata of what move was made
     if (move === history.length - 1) {
       return <li key={move}>You are at move #{move}</li>;
     } else if (move > 0) {
